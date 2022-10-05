@@ -9,7 +9,7 @@
    <link rel="icon" type="image/png" href="favicon.a4b094e4.png">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-   <link rel="stylesheet" href="custom.ae67d7c7.css">
+   <link rel="stylesheet" href="custom.73368d76.css">
    <meta property="og:url" content="https://anote.digital">
    <meta property="og:type" content="article">
    <meta property="og:title" content="Anote Today">
@@ -159,13 +159,34 @@
         <!-- Screen Home -->
         <div id="screen-home">
          <div class="row">
-            <div class="alert alert-danger" role="alert" id="seedWarning" style="display: none;">Save your seed words for backup purposes. You can find them in settings. <strong><u>You are responsible for your account.</u></strong></div>
+            <div class="alert alert-danger mb-4" role="alert" id="seedWarning" style="display: none;">Save your seed words for backup purposes. You can find them in settings. <strong><u>You are responsible for your account.</u></strong></div>
+            <div class="row mb-2 px-0 mx-0">
+               <div class="col-lg-6 p-0 mb-2" style="font-size: 1.2em;">
+                  <strong class="p-0">Balance:</strong> <span class="p-0" id="balanceWaves">0.000</span> ANOTES
+               </div>
+               <div class="col-lg-2 p-0"></div>
+               <div class="col-lg-4 p-0">
+                  <div class="input-group input-group-sm">
+                     <input type="text" class="form-control" readonly="" value="" id="address">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="buttonCopy">
+                           <i class="bi bi-files"></i>
+                        </button>
+                     </div>
+                     <div class="input-group-append ms-2">
+                        <button class="btn btn-danger" type="button" id="send">
+                           <i class="bi bi-arrow-up-right-circle-fill"></i>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </div>
             <ul class="nav nav-tabs mb-5 mt-4">
                <li class="nav-item">
-                  <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton1">YOUR AD</a>
+                  <a class="nav-link active fw-bold" href="javascript:void(0)" id="tabButton1">Your Ad</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2">AUCTIONS</a>
+                  <a class="nav-link fw-bold" href="javascript:void(0)" id="tabButton2">Auctions</a>
                 </li>
             </ul>
             <div id="tab1" style="padding: 0;">
@@ -173,7 +194,7 @@
                   <div class="row">
                      <div class="col-0 col-lg-2"></div>
                      <div class="col-12 col-lg-8">
-                        <h4 class="py-2 text-start text-secondary border-bottom mb-3"><strong>Edit Your Ad</strong></h4>
+                        <h5 class="py-2 text-start text-secondary border-bottom mb-3"><strong>Edit Your Ad</strong></h5>
                         <div class="mb-3">
                            <label for="todayText" class="form-label"><strong>Ad Text</strong></label>
                            <textarea class="form-control" id="todayText" rows="12" style="resize: none;"></textarea>
@@ -195,10 +216,94 @@
                </div>
             </div>
             <div id="tab2" style="display: none; padding: 0;">
-               <div class="bg-light p-md-5 p-3 border shadow-lg" style="color: #515151;">
-                  <h3 class="p-2 text-center text-secondary border-bottom"><strong>AINT Tokens</strong></h3>
-                  <span class="display-1 px-2 fw-bold" id="balanceAint">0.00000000</span><span class="fs-3">AINTs</span>
+               <div class="bg-light p-md-5 p-3 border shadow-lg mb-5" style="color: #515151;">
+                  <div class="row">
+                     <div class="col-0 col-lg-3"></div>
+                     <div class="col-12 col-lg-6">
+                        <h5 class="py-2 text-start text-secondary border-bottom mb-3"><strong>Anote Today Ad Auction</strong></h5>
+                        <div class="mb-3">
+                           <label for="bidAmount" class="form-label"><strong>Your Bid</strong></label>
+                           <input type="text" class="form-control" id="bidAmount" placeholder="">
+                        </div>
+                        <div id="pMessage10" class="form-text text-success mb-3" style="display: none; margin-top: 0;">Your bid is successfully placed.</div>
+                        <div id="pMessage11" class="form-text text-danger mb-3" style="display: none; margin-top: 0;"></div>
+                        <div class="row">
+                           <div class="d-grid">
+                              <button type="button" class="btn btn-success btn-lg btn-block" id="bidButton">
+                                 <i class="bi bi-credit-card-fill"></i>&nbsp;&nbsp;Bid For Ad
+                              </button>
+                           </div>
+                        </div>
+                        <div class="mt-3">
+                           <label class="form-label mb-3"><strong>Existing Bids</strong></label>
+                           <ol class="list-group list-group-numbered" id="bidList">
+                              
+                           </ol>
+                        </div>
+                     </div>
+                     <div class="col-0 col-lg-3"></div>
+                  </div>
                </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Screen Send -->
+      <div id="screen-send" style="display: none;">
+         <div class="row">
+            <div class="bg-light p-md-5 py-5 border shadow-lg" style="color: #515151;">
+               <div class="row">
+                  <div class="col-0 col-lg-3"></div>
+                  <div class="col-12 col-lg-6">
+                     <div class="alert alert-danger" role="alert">Transaction fee is <span id="feePrice">0.001</span> <span id="feeAsset">Anotes</span> no matter the amount.</div>
+                     <form action="javascript:void(0)">
+                        <!-- <div class="mb-4 mt-4">
+                           <label class="form-label fw-bold" data-t>send.currency</label>
+                           <div class="dropdown d-grid">
+                              <button class="btn btn-block btn-primary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="text-align: left; font-size: 1rem; padding: 0.75rem 1rem;">
+                                ANOTE
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="javascript: void null;" id="anoteButton">ANOTE</a></li>
+                                <li><a class="dropdown-item" href="javascript: void null;" id="aintButton">AINT</a></li>
+                              </ul>
+                            </div>
+                        </div> -->
+                        <div class="mb-4">
+                           <label class="form-label fw-bold">Account Address</label>
+                           <div class="input-group mb-3 input-group-lg">
+                              <input type="text" class="form-control" id="addressRec" style="font-size: 1rem;" placeholder="Address" aria-label="Address">
+                              <div class="input-group-append">
+                                 <button class="btn btn-primary btn-lg" type="button" id="qrButton">
+                                    <i class="bi bi-upc-scan"></i>
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mb-4">
+                           <label class="form-label fw-bold">Amount</label>
+                           <div class="input-group input-group-lg">
+                              <input type="text" class="form-control" id="amount" style="font-size: 1rem; line-height: 2;" placeholder="Amount ANOTEs" aria-label="Amount ANOTEs">
+                           </div>
+                        </div>
+                        <div id="sendError" class="form-text text-danger" style="display: none;"></div>
+                        <div id="sendSuccess" class="form-text text-success mt-3 mb-2" style="display: none;">The amount was sent successfully.</div>
+                        <div class="d-grid mt-4">
+                           <button class="btn btn-danger btn-block btn-lg" id="buttonSend">
+                              <i class="bi bi-arrow-up-right-circle-fill"></i>&nbsp;&nbsp;<span>Send</span>
+                           </button>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="col-0 col-lg-3"></div>
+               </div>
+            </div>
+         </div>
+         <div class="row py-4">
+            <div class="text-start px-0">
+               <button class="btn btn-secondary btn-lg" type="button" id="backFromSend">
+                  <i class="bi bi-arrow-left-circle-fill"></i>
+               </button>
             </div>
          </div>
       </div>
@@ -283,11 +388,80 @@
          </div>
       </div>
 
+      <!-- Modal Password Show Seed -->
+      <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel">Enter Password</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password8">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span>Cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonShowSeed" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span>Continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
+      <!-- Modal Password Change Password -->
+      <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel">Enter Old Password</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password9">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span>Cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonChangePass" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span>Continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
+      <!-- Modal Delete Account -->
+      <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="passwordModalLabel">Enter Password</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body pt-1">
+               <input type="password" class="form-control" id="password10">
+            </div>
+            <div class="modal-footer justify-content-between">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="bi bi-x-circle-fill"></i>&nbsp;&nbsp;<span>Cancel</span>
+               </button>
+               <button type="button" class="btn btn-danger" id="buttonDeleteAccount" data-bs-dismiss="modal">
+                  <i class="bi bi-arrow-right-circle-fill"></i>&nbsp;&nbsp;<span>Continue</span>
+               </button>
+            </div>
+         </div>
+         </div>
+      </div>
+
    </div>
 
    <input type="hidden" id="lang" value="en">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-   <script src="app.3acd6410.js"></script>
+   <script src="app.dbe159b3.js"></script>
 
 </body>
 

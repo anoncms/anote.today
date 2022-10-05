@@ -63867,18 +63867,103 @@ var Wallet = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "populateBids",
+    value: function populateBids() {
+      (0, _jquery.default)("#bidList").html("");
+
+      _jquery.default.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW", function (data) {
+        if (data.length == 0) {
+          var el = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto">No Bids Today</div></li>';
+          (0, _jquery.default)("#bidList").html(el);
+        } else {
+          data = data.sort(function (a, b) {
+            return parseFloat(b.value) - parseFloat(a.value);
+          });
+          data.forEach(function (element) {
+            var anotes = element.value / 100000000;
+            var address = element.key.split("__")[1];
+            var el = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto">' + address + '</div><span class="badge bg-primary rounded-pill">' + anotes + '</span></li>';
+            (0, _jquery.default)("#bidList").html((0, _jquery.default)("#bidList").html() + el);
+          });
+        }
+      });
+    }
+  }, {
     key: "bid",
     value: function () {
       var _bid = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var amount, amountFlt, amountInt, _yield$this$signer$in, _yield$this$signer$in2, tx;
+
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
+                amount = (0, _jquery.default)("#bidAmount").val();
+
+                if (!((amount === null || amount === void 0 ? void 0 : amount.toString().length) == 0 || amount == undefined)) {
+                  _context7.next = 7;
+                  break;
+                }
+
+                (0, _jquery.default)("#pMessage11").html(t.exchange.amountRequired);
+                (0, _jquery.default)("#pMessage11").fadeIn(function () {
+                  setTimeout(function () {
+                    (0, _jquery.default)("#pMessage11").fadeOut();
+                  }, 2000);
+                });
+                navigator.vibrate(500);
+                _context7.next = 25;
+                break;
+
+              case 7:
+                _context7.prev = 7;
+                amountFlt = parseFloat(amount === null || amount === void 0 ? void 0 : amount.toString());
+                amountInt = amountFlt * 100000000;
+                _context7.next = 12;
+                return this.signer.invoke({
+                  dApp: "3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW",
+                  call: {
+                    function: "bid",
+                    args: []
+                  },
+                  fee: 500000,
+                  payment: [{
+                    assetId: 'WAVES',
+                    amount: amountInt
+                  }]
+                }).broadcast();
+
+              case 12:
+                _yield$this$signer$in = _context7.sent;
+                _yield$this$signer$in2 = _slicedToArray(_yield$this$signer$in, 1);
+                tx = _yield$this$signer$in2[0];
+                setTimeout(wallet.populateBids, 10000);
+                (0, _jquery.default)("#pMessage10").fadeIn(function () {
+                  setTimeout(function () {
+                    (0, _jquery.default)("#pMessage10").fadeOut();
+                  }, 500);
+                });
+                _context7.next = 25;
+                break;
+
+              case 19:
+                _context7.prev = 19;
+                _context7.t0 = _context7["catch"](7);
+                (0, _jquery.default)("#pMessage11").html(t.error);
+                (0, _jquery.default)("#pMessage11").fadeIn(function () {
+                  setTimeout(function () {
+                    (0, _jquery.default)("#pMessage11").fadeOut();
+                  }, 2000);
+                });
+                console.log(_context7.t0.message);
+                navigator.vibrate(500);
+
+              case 25:
               case "end":
                 return _context7.stop();
             }
           }
-        }, _callee7);
+        }, _callee7, this, [[7, 19]]);
       }));
 
       function bid() {
@@ -64215,6 +64300,10 @@ var Wallet = /*#__PURE__*/function () {
                 return wallet.populateAd();
 
               case 18:
+                _context14.next = 20;
+                return wallet.populateBids();
+
+              case 20:
                 setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
                   return regeneratorRuntime.wrap(function _callee13$(_context13) {
                     while (1) {
@@ -64240,7 +64329,7 @@ var Wallet = /*#__PURE__*/function () {
                   }, _callee13, null, [[0, 5]]);
                 })), 30000);
 
-              case 19:
+              case 21:
               case "end":
                 return _context14.stop();
             }
@@ -64637,6 +64726,9 @@ var wallet = new Wallet(); // Button bindings
 });
 (0, _jquery.default)("#saveAdButton").on("click", function () {
   wallet.saveAd();
+});
+(0, _jquery.default)("#bidButton").on("click", function () {
+  wallet.bid();
 }); // $("#sendCurrency").on( "change", function() {
 //     wallet.updateAmount();
 //     wallet.updateFeeAmount();
@@ -64723,4 +64815,4 @@ function passwordsEqual(p1id, p2id, mid) {
   }
 }
 },{"@waves/signer":"f9ON","@waves/waves-transactions":"ET8R","@waves/provider-seed":"AvNi","qrcode":"xCWZ","jquery":"juYr","regenerator-runtime/runtime.js":"QVnC","js-cookie":"PhdE","copy-to-clipboard":"xbqV"}]},{},["EVxB"], null)
-//# sourceMappingURL=app.3acd6410.js.map
+//# sourceMappingURL=app.dbe159b3.js.map
