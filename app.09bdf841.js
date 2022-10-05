@@ -64600,9 +64600,9 @@ var wallet = new Wallet(); // Button bindings
 (0, _jquery.default)("#buttonCopy").on("click", function () {
   var address = (0, _jquery.default)("#address").val();
   (0, _copyToClipboard.default)(String(address));
-  (0, _jquery.default)("#pMessage4").fadeIn(function () {
+  (0, _jquery.default)("#pMessage12").fadeIn(function () {
     setTimeout(function () {
-      (0, _jquery.default)("#pMessage4").fadeOut();
+      (0, _jquery.default)("#pMessage12").fadeOut();
     }, 500);
   });
 });
@@ -64666,4 +64666,4 @@ function passwordsEqual(p1id, p2id, mid) {
   }
 }
 },{"@waves/signer":"f9ON","@waves/waves-transactions":"ET8R","@waves/provider-seed":"AvNi","qrcode":"xCWZ","jquery":"juYr","regenerator-runtime/runtime.js":"QVnC","js-cookie":"PhdE","copy-to-clipboard":"xbqV"}]},{},["EVxB"], null)
-//# sourceMappingURL=app.8c265169.js.map
+//# sourceMappingURL=app.09bdf841.js.map
