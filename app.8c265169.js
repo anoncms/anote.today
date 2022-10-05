@@ -63236,7 +63236,6 @@ var Wallet = /*#__PURE__*/function () {
     _classCallCheck(this, Wallet);
 
     this.address = _jsCookie.default.get("address");
-    this.referral = _jsCookie.default.get("referral");
     this.seed = _jsCookie.default.get("seed");
     this.sessionSeed = _jsCookie.default.get("sessionSeed");
     this.seedSaved = _jsCookie.default.get("seedSaved");
@@ -63285,42 +63284,6 @@ var Wallet = /*#__PURE__*/function () {
         (0, _jquery.default)("#captcha-img").attr("onclick", "this.src=('" + data.image + "?reload='+(new Date()).getTime())");
         wallet.captchaId = data.id;
       });
-    }
-  }, {
-    key: "initMiningSection",
-    value: function initMiningSection() {
-      this.getCaptcha();
-
-      _jquery.default.getJSON("https://nodes.anote.digital/node/status", function (data) {
-        var currentHeight = data.blockchainHeight;
-
-        _jquery.default.getJSON("https://nodes.anote.digital/addresses/data/3ANmnLHt8mR9c36mdfQVpBtxUs8z1mMAHQW?key=" + wallet.address, function (data) {
-          if (data.length == 0) {
-            (0, _jquery.default)("#miningPanel1").hide();
-            (0, _jquery.default)("#miningPanel2").hide();
-            (0, _jquery.default)("#miningPanel3").show();
-          } else {
-            _jquery.default.getJSON("https://nodes.anote.digital/addresses/data/3ANzidsKXn9a1s9FEbWA19hnMgV9zZ2RB9a?key=" + wallet.address, function (data) {
-              if (data.length > 0) {
-                var miningHeight = data[0].value;
-
-                if (currentHeight - miningHeight <= 1440) {
-                  (0, _jquery.default)("#miningPanel1").hide();
-                  (0, _jquery.default)("#miningPanel2").show();
-                } else {
-                  (0, _jquery.default)("#miningPanel2").hide();
-                  (0, _jquery.default)("#miningPanel1").show();
-                }
-              } else {
-                (0, _jquery.default)("#miningPanel2").hide();
-                (0, _jquery.default)("#miningPanel1").show();
-              }
-            });
-          }
-        });
-      });
-
-      (0, _jquery.default)("#buttonTelegram").attr("href", "https://t.me/AnoteRobot?start=" + this.address);
     }
   }, {
     key: "login",
@@ -64238,32 +64201,31 @@ var Wallet = /*#__PURE__*/function () {
   }, {
     key: "populateData",
     value: function () {
-      var _populateData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+      var _populateData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var historyHref, seed;
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                (0, _jquery.default)("#referralLink").val("https://anote.one/mine?r=" + this.address);
                 (0, _jquery.default)("#address").val(this.address);
                 historyHref = "https://anote.live/address/" + this.address + "/tx";
                 (0, _jquery.default)("#history").attr("href", historyHref);
                 this.generateQR();
 
                 if (this.signer) {
-                  _context14.next = 9;
+                  _context13.next = 8;
                   break;
                 }
 
                 seed = this.decryptSeedSession();
-                _context14.next = 9;
+                _context13.next = 8;
                 return this.initWaves(seed);
 
-              case 9:
-                _context14.next = 11;
+              case 8:
+                _context13.next = 10;
                 return wallet.populateBalance();
 
-              case 11:
+              case 10:
                 setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
                   return regeneratorRuntime.wrap(function _callee12$(_context12) {
                     while (1) {
@@ -64288,53 +64250,19 @@ var Wallet = /*#__PURE__*/function () {
                     }
                   }, _callee12, null, [[0, 5]]);
                 })), 30000);
-                _context14.next = 14;
-                return wallet.initMiningSection();
-
-              case 14:
-                _context14.next = 16;
-                return wallet.checkReferral();
-
-              case 16:
-                _context14.next = 18;
+                _context13.next = 13;
                 return wallet.populateAd();
 
-              case 18:
-                _context14.next = 20;
+              case 13:
+                _context13.next = 15;
                 return wallet.populateBids();
 
-              case 20:
-                setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-                  return regeneratorRuntime.wrap(function _callee13$(_context13) {
-                    while (1) {
-                      switch (_context13.prev = _context13.next) {
-                        case 0:
-                          _context13.prev = 0;
-                          _context13.next = 3;
-                          return wallet.initMiningSection();
-
-                        case 3:
-                          _context13.next = 7;
-                          break;
-
-                        case 5:
-                          _context13.prev = 5;
-                          _context13.t0 = _context13["catch"](0);
-
-                        case 7:
-                        case "end":
-                          return _context13.stop();
-                      }
-                    }
-                  }, _callee13, null, [[0, 5]]);
-                })), 30000);
-
-              case 21:
+              case 15:
               case "end":
-                return _context14.stop();
+                return _context13.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee13, this);
       }));
 
       function populateData() {
@@ -64342,74 +64270,6 @@ var Wallet = /*#__PURE__*/function () {
       }
 
       return populateData;
-    }()
-  }, {
-    key: "checkReferral",
-    value: function () {
-      var _checkReferral = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
-          while (1) {
-            switch (_context16.prev = _context16.next) {
-              case 0:
-                if (this.balanceWaves > 100000) {
-                  if (this.referral && this.referral.length > 0) {
-                    _jquery.default.getJSON("https://nodes.anote.digital/addresses/data/" + this.address + "?key=referral", function (data) {
-                      if (data.length == 0) {
-                        var records = [{
-                          key: 'referral',
-                          type: 'string',
-                          value: wallet.referral
-                        }];
-                        wallet.signer.data({
-                          data: records
-                        }).broadcast();
-                      } else {
-                        _jsCookie.default.remove("referral");
-
-                        wallet.referral = "";
-                      }
-                    });
-                  }
-                } else {
-                  setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-                    return regeneratorRuntime.wrap(function _callee15$(_context15) {
-                      while (1) {
-                        switch (_context15.prev = _context15.next) {
-                          case 0:
-                            _context15.prev = 0;
-                            _context15.next = 3;
-                            return wallet.checkReferral();
-
-                          case 3:
-                            _context15.next = 7;
-                            break;
-
-                          case 5:
-                            _context15.prev = 5;
-                            _context15.t0 = _context15["catch"](0);
-
-                          case 7:
-                          case "end":
-                            return _context15.stop();
-                        }
-                      }
-                    }, _callee15, null, [[0, 5]]);
-                  })), 30000);
-                }
-
-              case 1:
-              case "end":
-                return _context16.stop();
-            }
-          }
-        }, _callee16, this);
-      }));
-
-      function checkReferral() {
-        return _checkReferral.apply(this, arguments);
-      }
-
-      return checkReferral;
     }()
   }, {
     key: "accountExists",
@@ -64462,18 +64322,18 @@ var Wallet = /*#__PURE__*/function () {
   }, {
     key: "passwordValid",
     value: function () {
-      var _passwordValid = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(password) {
+      var _passwordValid = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(password) {
         var seed, signer, provider, user;
-        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 if (!password) {
-                  _context17.next = 23;
+                  _context14.next = 23;
                   break;
                 }
 
-                _context17.prev = 1;
+                _context14.prev = 1;
                 seed = _wavesTransactions.libs.crypto.decryptSeed(this.seed, String(password));
                 signer = new _signer.Signer({
                   NODE_URL: 'https://nodes.anote.digital'
@@ -64484,45 +64344,45 @@ var Wallet = /*#__PURE__*/function () {
                   NETWORK_BYTE: 55
                 });
                 signer.setProvider(provider);
-                _context17.next = 9;
+                _context14.next = 9;
                 return signer.login();
 
               case 9:
-                user = _context17.sent;
+                user = _context14.sent;
 
                 if (!(this.address == user.address)) {
-                  _context17.next = 14;
+                  _context14.next = 14;
                   break;
                 }
 
-                return _context17.abrupt("return", true);
+                return _context14.abrupt("return", true);
 
               case 14:
-                return _context17.abrupt("return", false);
+                return _context14.abrupt("return", false);
 
               case 15:
-                _context17.next = 21;
+                _context14.next = 21;
                 break;
 
               case 17:
-                _context17.prev = 17;
-                _context17.t0 = _context17["catch"](1);
-                console.log(_context17.t0);
-                return _context17.abrupt("return", false);
+                _context14.prev = 17;
+                _context14.t0 = _context14["catch"](1);
+                console.log(_context14.t0);
+                return _context14.abrupt("return", false);
 
               case 21:
-                _context17.next = 24;
+                _context14.next = 24;
                 break;
 
               case 23:
-                return _context17.abrupt("return", false);
+                return _context14.abrupt("return", false);
 
               case 24:
               case "end":
-                return _context17.stop();
+                return _context14.stop();
             }
           }
-        }, _callee17, this, [[1, 17]]);
+        }, _callee14, this, [[1, 17]]);
       }));
 
       function passwordValid(_x2) {
@@ -64746,15 +64606,6 @@ var wallet = new Wallet(); // Button bindings
     }, 500);
   });
 });
-(0, _jquery.default)("#buttonCopyReferral").on("click", function () {
-  var link = (0, _jquery.default)("#referralLink").val();
-  (0, _copyToClipboard.default)(String(link));
-  (0, _jquery.default)("#pMessage13").fadeIn(function () {
-    setTimeout(function () {
-      (0, _jquery.default)("#pMessage13").fadeOut();
-    }, 500);
-  });
-});
 (0, _jquery.default)("#buttonSeedCopy").on("click", function () {
   var seed = (0, _jquery.default)("#seedWords2").val();
   (0, _copyToClipboard.default)(String(seed));
@@ -64815,4 +64666,4 @@ function passwordsEqual(p1id, p2id, mid) {
   }
 }
 },{"@waves/signer":"f9ON","@waves/waves-transactions":"ET8R","@waves/provider-seed":"AvNi","qrcode":"xCWZ","jquery":"juYr","regenerator-runtime/runtime.js":"QVnC","js-cookie":"PhdE","copy-to-clipboard":"xbqV"}]},{},["EVxB"], null)
-//# sourceMappingURL=app.dbe159b3.js.map
+//# sourceMappingURL=app.8c265169.js.map
