@@ -1,0 +1,27 @@
+.qrcode {
+    width: 100%;
+}
+
+.main-icon {
+    font-size: 400%;
+}
+
+@media (min-width: 768px) {
+    .main-icon {
+        font-size: 500%;
+    }
+}
+
+.modal-header {
+    border-bottom: 0 none;
+}
+
+.modal-footer {
+    border-top: 0 none;
+}
+
+.captcha-img {
+    /* border: 1px solid darkslategrey; */
+}
+
+/*# sourceMappingURL=custom.ae67d7c7.css.map */
