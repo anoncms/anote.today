@@ -384,7 +384,7 @@ class Wallet {
                     return parseFloat(b.value) - parseFloat(a.value);
                 });
                 data.forEach(element => {
-                    var anotes = element.value / 100000000;
+                    var anotes = (element.value / 100000000).toFixed(8);
                     var address = element.key.split("__")[1];
                     if (address != "adnum") {
                         var el = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto">' + address + '</div><span class="badge bg-primary rounded-pill">' + anotes + '</span></li>';
