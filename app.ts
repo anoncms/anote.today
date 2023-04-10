@@ -386,8 +386,10 @@ class Wallet {
                 data.forEach(element => {
                     var anotes = element.value / 100000000;
                     var address = element.key.split("__")[1];
-                    var el = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto">' + address + '</div><span class="badge bg-primary rounded-pill">' + anotes + '</span></li>';
-                    $("#bidList").html($("#bidList").html() + el);
+                    if (address != "adnum") {
+                        var el = '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="ms-2 me-auto">' + address + '</div><span class="badge bg-primary rounded-pill">' + anotes + '</span></li>';
+                        $("#bidList").html($("#bidList").html() + el);
+                    }
                 })
             }
         });
